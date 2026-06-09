@@ -3,176 +3,925 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Ana Artes</title>
-
+<title>Ana Artes – Convites & Identidade Visual</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
 <style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial, sans-serif;
-}
+  :root {
+    --rose:     #E8839A;
+    --blush:    #F5C6D0;
+    --petal:    #FDE8ED;
+    --deep:     #7B3352;
+    --gold:     #C9A96E;
+    --cream:    #FDF8F5;
+    --ink:      #2C1A22;
+    --mist:     #F7EEF1;
+  }
 
-body{
-    background:#f5f5f5;
-    color:#333;
-}
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
-header{
-    background:linear-gradient(135deg,#6a11cb,#2575fc);
-    color:white;
-    text-align:center;
-    padding:60px 20px;
-}
+  html { scroll-behavior: smooth; }
 
-header h1{
-    font-size:3rem;
-}
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--cream);
+    color: var(--ink);
+    overflow-x: hidden;
+  }
 
-header p{
-    margin-top:10px;
-    font-size:1.2rem;
-}
+  /* ── PETALS bg ── */
+  .petals-bg {
+    position: fixed; inset: 0; pointer-events: none; z-index: 0;
+    overflow: hidden;
+  }
+  .petal {
+    position: absolute;
+    width: 12px; height: 18px;
+    background: var(--blush);
+    border-radius: 50% 0 50% 0;
+    opacity: 0;
+    animation: fall linear infinite;
+  }
+  @keyframes fall {
+    0%   { transform: translateY(-40px) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.5; }
+    90%  { opacity: 0.3; }
+    100% { transform: translateY(110vh) rotate(360deg); opacity: 0; }
+  }
 
-.btn{
-    display:inline-block;
-    margin-top:20px;
-    background:#25D366;
-    color:white;
-    padding:12px 25px;
-    border-radius:30px;
-    text-decoration:none;
-    font-weight:bold;
-    transition:0.3s;
-}
+  /* ── NAV ── */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 18px 48px;
+    background: rgba(253,248,245,0.92);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--blush);
+    transition: box-shadow .3s;
+  }
+  nav.scrolled { box-shadow: 0 4px 24px rgba(123,51,82,0.08); }
+  .nav-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; font-weight: 600;
+    color: var(--deep);
+    letter-spacing: .04em;
+  }
+  .nav-logo span { color: var(--rose); font-style: italic; }
+  .nav-links { display: flex; gap: 32px; list-style: none; }
+  .nav-links a {
+    font-size: .85rem; letter-spacing: .08em; text-transform: uppercase;
+    color: var(--ink); text-decoration: none; opacity: .7;
+    transition: opacity .2s, color .2s;
+  }
+  .nav-links a:hover { opacity: 1; color: var(--deep); }
+  .nav-cta {
+    background: var(--deep); color: #fff;
+    border: none; border-radius: 40px;
+    padding: 10px 26px; font-size: .85rem;
+    letter-spacing: .06em; cursor: pointer;
+    transition: background .2s, transform .15s;
+    text-decoration: none;
+  }
+  .nav-cta:hover { background: var(--rose); transform: scale(1.03); }
 
-.btn:hover{
-    background:#1ebd5a;
-}
+  /* ── HERO ── */
+  .hero {
+    position: relative; z-index: 1;
+    min-height: 100vh;
+    display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center;
+    padding: 120px 24px 80px;
+    background: radial-gradient(ellipse 80% 60% at 50% 40%, #fce4ec 0%, var(--cream) 70%);
+    overflow: hidden;
+  }
+  .hero-eyebrow {
+    font-size: .75rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 20px;
+    opacity: 0; animation: fadeUp .8s .2s forwards;
+  }
+  .hero-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(3.2rem, 9vw, 7rem);
+    font-weight: 300; line-height: 1.05;
+    color: var(--deep);
+    opacity: 0; animation: fadeUp .9s .4s forwards;
+  }
+  .hero-title em { font-style: italic; color: var(--rose); }
+  .hero-sub {
+    margin-top: 22px;
+    font-size: 1.05rem; color: var(--ink); opacity: 0;
+    max-width: 520px; line-height: 1.7;
+    animation: fadeUp .9s .6s forwards;
+  }
+  .hero-sub span { opacity: .55; }
+  .hero-btns {
+    margin-top: 40px; display: flex; gap: 16px; flex-wrap: wrap; justify-content: center;
+    opacity: 0; animation: fadeUp .9s .8s forwards;
+  }
+  .btn-primary {
+    background: linear-gradient(135deg, var(--rose), var(--deep));
+    color: #fff; border: none; border-radius: 40px;
+    padding: 14px 36px; font-size: 1rem; cursor: pointer;
+    box-shadow: 0 8px 28px rgba(123,51,82,.28);
+    transition: transform .2s, box-shadow .2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 14px 36px rgba(123,51,82,.36); }
+  .btn-ghost {
+    background: transparent; color: var(--deep);
+    border: 1.5px solid var(--rose); border-radius: 40px;
+    padding: 14px 36px; font-size: 1rem; cursor: pointer;
+    transition: background .2s, color .2s;
+    text-decoration: none; display: inline-block;
+  }
+  .btn-ghost:hover { background: var(--petal); }
 
-section{
-    max-width:1000px;
-    margin:auto;
-    padding:50px 20px;
-}
+  .hero-florals {
+    position: absolute; width: 100%; height: 100%; top: 0; left: 0;
+    pointer-events: none;
+  }
+  .floral {
+    position: absolute; font-size: 3rem; opacity: .07;
+    animation: spin linear infinite;
+  }
+  @keyframes spin { to { transform: rotate(360deg); } }
 
-.titulo{
-    text-align:center;
-    margin-bottom:30px;
-    color:#2575fc;
-}
+  .scroll-hint {
+    position: absolute; bottom: 32px;
+    display: flex; flex-direction: column; align-items: center; gap: 8px;
+    opacity: .4; animation: bounce 2s infinite;
+  }
+  .scroll-hint span { font-size: .7rem; letter-spacing: .12em; text-transform: uppercase; }
+  .scroll-hint svg { width: 20px; }
+  @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(6px)} }
 
-.servicos{
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(220px,1fr));
-    gap:20px;
-}
+  /* ── SECTION BASE ── */
+  section { position: relative; z-index: 1; }
+  .section-label {
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--rose); margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: clamp(2rem, 4.5vw, 3.4rem);
+    font-weight: 300; line-height: 1.2; color: var(--deep);
+  }
+  .section-title em { font-style: italic; }
 
-.card{
-    background:white;
-    padding:25px;
-    border-radius:15px;
-    box-shadow:0 5px 15px rgba(0,0,0,0.1);
-    text-align:center;
-}
+  /* ── SERVICES ── */
+  .services {
+    padding: 100px 24px;
+    background: var(--mist);
+  }
+  .services-inner { max-width: 1100px; margin: 0 auto; }
+  .services-header { text-align: center; margin-bottom: 64px; }
+  .services-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 28px;
+  }
+  .service-card {
+    background: #fff;
+    border-radius: 20px;
+    padding: 40px 32px;
+    border: 1px solid var(--blush);
+    text-align: center;
+    transition: transform .25s, box-shadow .25s;
+    cursor: default;
+    position: relative; overflow: hidden;
+  }
+  .service-card::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: linear-gradient(135deg, var(--petal), transparent 60%);
+    opacity: 0; transition: opacity .3s;
+  }
+  .service-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(123,51,82,.1); }
+  .service-card:hover::before { opacity: 1; }
+  .service-icon {
+    font-size: 2.4rem; margin-bottom: 16px; display: block;
+    filter: drop-shadow(0 4px 8px rgba(232,131,154,.3));
+  }
+  .service-card h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.4rem; font-weight: 600; color: var(--deep);
+    margin-bottom: 10px;
+  }
+  .service-card p { font-size: .9rem; line-height: 1.7; opacity: .65; }
+  .service-tag {
+    display: inline-block; margin-top: 18px;
+    background: var(--petal); color: var(--rose);
+    border-radius: 20px; padding: 4px 14px;
+    font-size: .72rem; letter-spacing: .06em;
+  }
 
-.card h3{
-    color:#6a11cb;
-    margin-bottom:10px;
-}
+  /* ── SHOWCASE / MOCKUP ── */
+  .showcase {
+    padding: 100px 24px;
+    background: var(--cream);
+  }
+  .showcase-inner { max-width: 1100px; margin: 0 auto; }
+  .showcase-header { text-align: center; margin-bottom: 64px; }
+  .mockup-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: auto auto;
+    gap: 20px;
+  }
+  .mockup-card {
+    border-radius: 20px; overflow: hidden;
+    position: relative;
+    aspect-ratio: 3/4;
+    background: linear-gradient(160deg, var(--blush), var(--deep));
+    display: flex; align-items: center; justify-content: center;
+    transition: transform .3s, box-shadow .3s;
+    cursor: pointer;
+  }
+  .mockup-card:hover { transform: scale(1.03); box-shadow: 0 24px 56px rgba(123,51,82,.22); }
+  .mockup-card.wide { grid-column: span 2; aspect-ratio: 16/9; }
+  .mockup-inner {
+    text-align: center; color: #fff; padding: 24px;
+    position: relative; z-index: 2;
+  }
+  .mockup-inner .mi-tag {
+    font-size: .7rem; letter-spacing: .14em; text-transform: uppercase;
+    background: rgba(255,255,255,.2); border-radius: 20px; padding: 4px 12px;
+    margin-bottom: 12px; display: inline-block;
+  }
+  .mockup-inner h4 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 300; line-height: 1.2;
+  }
+  .mockup-inner p { font-size: .8rem; opacity: .75; margin-top: 8px; }
+  .mockup-card .grad-1 { background: linear-gradient(135deg,#f48fb1,#7B3352); }
+  .mockup-card .grad-2 { background: linear-gradient(135deg,#CE93D8,#7B3352); }
+  .mockup-card .grad-3 { background: linear-gradient(135deg,#FFAB91,#c2185b); }
+  .mockup-card .grad-4 { background: linear-gradient(135deg,#80DEEA,#00695C); }
+  .mockup-card .grad-5 { background: linear-gradient(135deg,#FFF9C4,#F57F17); }
 
-.sobre{
-    text-align:center;
-    line-height:1.8;
-}
+  /* ensure gradient fills card */
+  .mockup-card > div.grad-1,
+  .mockup-card > div.grad-2,
+  .mockup-card > div.grad-3,
+  .mockup-card > div.grad-4,
+  .mockup-card > div.grad-5 {
+    position: absolute; inset: 0; z-index: 1;
+  }
 
-footer{
-    background:#222;
-    color:white;
-    text-align:center;
-    padding:20px;
-}
+  /* ── ANIMATED VIDEO INVITE DEMO ── */
+  .video-section {
+    padding: 100px 24px;
+    background: var(--deep);
+    color: #fff;
+    text-align: center;
+    overflow: hidden;
+    position: relative;
+  }
+  .video-section .section-label { color: var(--blush); }
+  .video-section .section-title { color: #fff; }
+  .video-section .section-title em { color: var(--blush); }
+  .video-demo {
+    margin: 60px auto 0;
+    max-width: 340px;
+    aspect-ratio: 9/16;
+    background: linear-gradient(160deg, #3D0C22, #7B3352, #E8839A);
+    border-radius: 28px;
+    border: 2px solid rgba(255,255,255,.12);
+    box-shadow: 0 40px 80px rgba(0,0,0,.5);
+    display: flex; align-items: center; justify-content: center;
+    position: relative; overflow: hidden;
+    cursor: pointer;
+  }
+  .vd-petals {
+    position: absolute; inset: 0; overflow: hidden; pointer-events: none;
+  }
+  .vd-petal {
+    position: absolute;
+    width: 8px; height: 12px;
+    background: rgba(255,255,255,.3);
+    border-radius: 50% 0 50% 0;
+    animation: fall linear infinite;
+  }
+  .vd-content {
+    text-align: center; z-index: 2; padding: 32px;
+    animation: pulse 3s ease-in-out infinite;
+  }
+  @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.02)} }
+  .vd-content .vdc-sub {
+    font-size: .7rem; letter-spacing: .16em; text-transform: uppercase;
+    opacity: .7; margin-bottom: 8px;
+  }
+  .vd-content .vdc-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem; font-style: italic; font-weight: 300;
+    line-height: 1.1; margin-bottom: 6px;
+  }
+  .vd-content .vdc-amp {
+    font-size: 1.6rem; opacity: .6; font-family: 'Cormorant Garamond', serif;
+  }
+  .vd-content .vdc-date {
+    margin-top: 20px; font-size: .8rem; letter-spacing: .1em;
+    opacity: .8; text-transform: uppercase;
+  }
+  .vd-content .vdc-line {
+    width: 40px; height: 1px; background: rgba(255,255,255,.4);
+    margin: 12px auto;
+  }
+  .play-btn {
+    position: absolute; bottom: 28px; right: 28px;
+    width: 48px; height: 48px;
+    background: rgba(255,255,255,.2);
+    border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    backdrop-filter: blur(8px);
+    transition: background .2s;
+  }
+  .play-btn:hover { background: rgba(255,255,255,.35); }
 
-.whatsapp-float{
-    position:fixed;
-    width:60px;
-    height:60px;
-    bottom:20px;
-    right:20px;
-    background:#25D366;
-    color:white;
-    border-radius:50%;
-    text-align:center;
-    line-height:60px;
-    font-size:30px;
-    text-decoration:none;
-    box-shadow:0 4px 10px rgba(0,0,0,.3);
-}
+  /* sparkle rings */
+  .ring {
+    position: absolute; border-radius: 50%;
+    border: 1px solid rgba(255,255,255,.15);
+    animation: expand 4s linear infinite;
+  }
+  @keyframes expand {
+    0% { transform: scale(.2); opacity: .6; }
+    100% { transform: scale(3); opacity: 0; }
+  }
+
+  /* ── PROCESS ── */
+  .process {
+    padding: 100px 24px;
+    background: var(--mist);
+  }
+  .process-inner { max-width: 900px; margin: 0 auto; }
+  .process-header { text-align: center; margin-bottom: 64px; }
+  .steps { display: flex; flex-direction: column; gap: 0; }
+  .step {
+    display: grid; grid-template-columns: 64px 1fr; gap: 24px;
+    padding: 36px 0;
+    border-bottom: 1px solid var(--blush);
+    align-items: start;
+    opacity: 0;
+    transform: translateX(-20px);
+    transition: opacity .6s, transform .6s;
+  }
+  .step.visible { opacity: 1; transform: none; }
+  .step:last-child { border-bottom: none; }
+  .step-num {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 2.8rem; font-weight: 300;
+    color: var(--blush); line-height: 1;
+    text-align: center;
+  }
+  .step-body h3 {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.5rem; color: var(--deep); margin-bottom: 8px;
+  }
+  .step-body p { font-size: .9rem; line-height: 1.7; opacity: .65; }
+
+  /* ── PRICING ── */
+  .pricing {
+    padding: 100px 24px;
+    background: var(--cream);
+    text-align: center;
+  }
+  .pricing-inner { max-width: 1000px; margin: 0 auto; }
+  .pricing-header { margin-bottom: 64px; }
+  .pricing-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px;
+    align-items: start;
+  }
+  .price-card {
+    border-radius: 24px; padding: 48px 36px;
+    border: 1.5px solid var(--blush);
+    position: relative; overflow: hidden;
+    transition: transform .25s, box-shadow .25s;
+  }
+  .price-card:hover { transform: translateY(-6px); box-shadow: 0 20px 48px rgba(123,51,82,.1); }
+  .price-card.featured {
+    background: linear-gradient(160deg, var(--deep), #4A1A32);
+    color: #fff; border-color: transparent;
+    box-shadow: 0 24px 56px rgba(123,51,82,.3);
+  }
+  .price-card.featured .price-name { color: var(--blush); }
+  .price-card.featured .price-desc { color: rgba(255,255,255,.65); }
+  .price-card.featured .price-feat { color: rgba(255,255,255,.8); border-color: rgba(255,255,255,.1); }
+  .price-badge {
+    position: absolute; top: 20px; right: 20px;
+    background: var(--gold); color: #fff;
+    border-radius: 20px; padding: 4px 12px;
+    font-size: .7rem; letter-spacing: .08em; font-weight: 500;
+  }
+  .price-name {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.3rem; font-weight: 600; color: var(--deep); margin-bottom: 8px;
+  }
+  .price-amount {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 3.2rem; font-weight: 300; line-height: 1;
+    color: var(--rose); margin: 16px 0 6px;
+  }
+  .price-card.featured .price-amount { color: var(--blush); }
+  .price-desc { font-size: .85rem; opacity: .6; margin-bottom: 28px; }
+  .price-feats { list-style: none; text-align: left; margin-bottom: 32px; }
+  .price-feat {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--blush);
+    font-size: .88rem;
+    display: flex; align-items: center; gap: 10px;
+  }
+  .price-feat .chk { color: var(--rose); font-size: 1rem; }
+  .price-card.featured .chk { color: var(--blush); }
+  .btn-card {
+    width: 100%; padding: 14px;
+    border-radius: 40px; border: none;
+    font-size: .9rem; cursor: pointer; font-family: inherit;
+    transition: transform .2s, box-shadow .2s;
+    letter-spacing: .04em;
+  }
+  .btn-card-light {
+    background: var(--petal); color: var(--deep);
+  }
+  .btn-card-light:hover { background: var(--blush); }
+  .btn-card-dark {
+    background: var(--rose); color: #fff;
+    box-shadow: 0 8px 24px rgba(232,131,154,.4);
+  }
+  .btn-card-dark:hover { transform: scale(1.02); }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials {
+    padding: 100px 24px;
+    background: var(--mist);
+    text-align: center;
+  }
+  .testimonials-inner { max-width: 900px; margin: 0 auto; }
+  .test-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 24px; margin-top: 56px;
+  }
+  .test-card {
+    background: #fff; border-radius: 20px;
+    padding: 36px 28px;
+    border: 1px solid var(--blush);
+    text-align: left;
+    transition: transform .25s;
+  }
+  .test-card:hover { transform: translateY(-4px); }
+  .test-stars { color: var(--gold); font-size: 1rem; margin-bottom: 14px; }
+  .test-text { font-size: .92rem; line-height: 1.75; opacity: .72; font-style: italic; margin-bottom: 20px; }
+  .test-author { font-size: .82rem; font-weight: 500; color: var(--deep); }
+  .test-author span { font-weight: 300; opacity: .55; }
+
+  /* ── CTA ── */
+  .cta-section {
+    padding: 120px 24px;
+    background: linear-gradient(135deg, #fce4ec, var(--petal));
+    text-align: center;
+  }
+  .cta-section .section-title { font-size: clamp(2.4rem, 5vw, 4rem); margin-bottom: 20px; }
+  .cta-section p { max-width: 500px; margin: 0 auto 40px; font-size: 1.05rem; opacity: .65; line-height: 1.7; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--ink); color: rgba(255,255,255,.5);
+    padding: 60px 48px 36px;
+    display: grid; grid-template-columns: 1fr auto; gap: 40px; align-items: center;
+  }
+  .footer-logo {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 1.8rem; font-weight: 600; color: #fff;
+    margin-bottom: 8px;
+  }
+  .footer-logo span { color: var(--rose); font-style: italic; }
+  footer p { font-size: .82rem; line-height: 1.6; }
+  .footer-links { display: flex; gap: 20px; flex-wrap: wrap; justify-content: flex-end; }
+  .footer-links a {
+    color: rgba(255,255,255,.45); text-decoration: none;
+    font-size: .82rem;
+    transition: color .2s;
+  }
+  .footer-links a:hover { color: var(--rose); }
+
+  /* ── WHATSAPP FLOAT ── */
+  .wa-float {
+    position: fixed; bottom: 28px; right: 28px; z-index: 200;
+    width: 58px; height: 58px;
+    background: #25D366;
+    border-radius: 50%; display: flex; align-items: center; justify-content: center;
+    box-shadow: 0 8px 24px rgba(37,211,102,.4);
+    transition: transform .2s;
+    text-decoration: none;
+  }
+  .wa-float:hover { transform: scale(1.1); }
+  .wa-float svg { width: 30px; height: 30px; fill: #fff; }
+
+  /* ── ANIMATIONS ── */
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(24px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+  .reveal {
+    opacity: 0; transform: translateY(30px);
+    transition: opacity .7s ease, transform .7s ease;
+  }
+  .reveal.visible { opacity: 1; transform: none; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 768px) {
+    nav { padding: 16px 20px; }
+    .nav-links { display: none; }
+    .mockup-grid { grid-template-columns: 1fr 1fr; }
+    .mockup-card.wide { grid-column: span 2; }
+    footer { grid-template-columns: 1fr; }
+    .footer-links { justify-content: flex-start; }
+  }
 </style>
 </head>
-
 <body>
 
-<header>
-    <h1>Ana Artes</h1>
-    <p>Transformando ideias em artes incríveis</p>
+<!-- Falling petals background -->
+<div class="petals-bg" id="petalsBg"></div>
 
-    <a class="btn"
-       href="https://wa.me/5522992227950"
-       target="_blank">
-       Solicitar Orçamento
+<!-- NAV -->
+<nav id="mainNav">
+  <div class="nav-logo">Ana <span>Artes</span></div>
+  <ul class="nav-links">
+    <li><a href="#servicos">Serviços</a></li>
+    <li><a href="#portfolio">Portfólio</a></li>
+    <li><a href="#processo">Como Funciona</a></li>
+    <li><a href="#precos">Preços</a></li>
+  </ul>
+  <a href="#contato" class="nav-cta">Pedir Orçamento</a>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-florals">
+    <span class="floral" style="top:8%;left:6%;font-size:5rem;animation-duration:28s;">🌸</span>
+    <span class="floral" style="top:15%;right:8%;font-size:4rem;animation-duration:22s;">🌺</span>
+    <span class="floral" style="bottom:20%;left:5%;font-size:3.5rem;animation-duration:32s;">✿</span>
+    <span class="floral" style="bottom:10%;right:12%;font-size:6rem;animation-duration:25s;">🌸</span>
+    <span class="floral" style="top:50%;left:2%;font-size:2.5rem;animation-duration:20s;">❀</span>
+  </div>
+  <p class="hero-eyebrow">✦ Estúdio de Convites & Identidade Visual ✦</p>
+  <h1 class="hero-title">Momentos que<br><em>merecem arte</em></h1>
+  <p class="hero-sub">
+    Convites animados, templates exclusivos, cartões de visita e links personalizados.<br>
+    <span>Cada peça criada com amor e atenção aos detalhes.</span>
+  </p>
+  <div class="hero-btns">
+    <a href="#portfolio" class="btn-primary">Ver Portfólio</a>
+    <a href="#contato" class="btn-ghost">Solicitar Convite</a>
+  </div>
+  <div class="scroll-hint">
+    <span>Explorar</span>
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path d="M12 5v14M5 12l7 7 7-7"/>
+    </svg>
+  </div>
+</section>
+
+<!-- SERVICES -->
+<section class="services" id="servicos">
+  <div class="services-inner">
+    <div class="services-header reveal">
+      <p class="section-label">✦ O que ofereço</p>
+      <h2 class="section-title">Serviços <em>especiais</em></h2>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal">
+        <span class="service-icon">💌</span>
+        <h3>Convites Digitais</h3>
+        <p>Convites únicos para casamentos, aniversários, formaturas e eventos corporativos.</p>
+        <span class="service-tag">Digital</span>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">🎬</span>
+        <h3>Convite Animado</h3>
+        <p>Vídeos de convite com animações florais, partículas e música personalizada.</p>
+        <span class="service-tag">Vídeo MP4</span>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">🃏</span>
+        <h3>Cartão de Visita</h3>
+        <p>Identidade visual completa com cartão digital interativo e link personalizado.</p>
+        <span class="service-tag">Digital + Impresso</span>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">🔗</span>
+        <h3>Links Personalizados</h3>
+        <p>Páginas exclusivas com seu nome, RSVP online, localização e contador regressivo.</p>
+        <span class="service-tag">Link único</span>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">🖼️</span>
+        <h3>Templates</h3>
+        <p>Coleções prontas para editar no Canva. Lindos, elegantes e fáceis de personalizar.</p>
+        <span class="service-tag">Canva</span>
+      </div>
+      <div class="service-card reveal">
+        <span class="service-icon">🎨</span>
+        <h3>Identidade Visual</h3>
+        <p>Logo, paleta de cores, tipografia e todos os materiais para sua marca ou evento.</p>
+        <span class="service-tag">Completo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFOLIO MOCKUPS -->
+<section class="showcase" id="portfolio">
+  <div class="showcase-inner">
+    <div class="showcase-header reveal">
+      <p class="section-label">✦ Portfólio</p>
+      <h2 class="section-title">Trabalhos <em>recentes</em></h2>
+    </div>
+    <div class="mockup-grid reveal">
+      <div class="mockup-card">
+        <div class="grad-1"></div>
+        <div class="mockup-inner">
+          <span class="mi-tag">Casamento</span>
+          <h4>Isabella<br>& Rafael</h4>
+          <p>Convite animado floral</p>
+        </div>
+      </div>
+      <div class="mockup-card wide">
+        <div class="grad-2"></div>
+        <div class="mockup-inner">
+          <span class="mi-tag">Debutante</span>
+          <h4>15 anos de Sofia</h4>
+          <p>Template + vídeo + link personalizado</p>
+        </div>
+      </div>
+      <div class="mockup-card">
+        <div class="grad-3"></div>
+        <div class="mockup-inner">
+          <span class="mi-tag">Chá de Bebê</span>
+          <h4>Bem-vinda<br>Aurora</h4>
+          <p>Link + RSVP online</p>
+        </div>
+      </div>
+      <div class="mockup-card">
+        <div class="grad-5"></div>
+        <div class="mockup-inner">
+          <span class="mi-tag">Cartão</span>
+          <h4>Identidade<br>Visual</h4>
+          <p>Logo + cartão de visita</p>
+        </div>
+      </div>
+      <div class="mockup-card">
+        <div class="grad-4"></div>
+        <div class="mockup-inner">
+          <span class="mi-tag">Corporativo</span>
+          <h4>Evento<br>Premium</h4>
+          <p>Convite institucional</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ANIMATED VIDEO INVITE DEMO -->
+<section class="video-section" id="convite-animado">
+  <!-- rings -->
+  <div class="ring" style="width:300px;height:300px;top:50%;left:50%;margin:-150px 0 0 -150px;animation-delay:0s;"></div>
+  <div class="ring" style="width:300px;height:300px;top:50%;left:50%;margin:-150px 0 0 -150px;animation-delay:1.5s;"></div>
+  <div class="ring" style="width:300px;height:300px;top:50%;left:50%;margin:-150px 0 0 -150px;animation-delay:3s;"></div>
+
+  <p class="section-label reveal">✦ Convite Animado em Vídeo</p>
+  <h2 class="section-title reveal">Vídeos que <em>encantam</em></h2>
+  <p style="margin-top:16px;opacity:.6;max-width:480px;margin-left:auto;margin-right:auto;line-height:1.7;" class="reveal">
+    Pétalas caindo, música personalizada e o nome do(a) aniversariante em destaque.<br>
+    Enviado direto no WhatsApp, pronto para compartilhar.
+  </p>
+
+  <div class="video-demo reveal" id="videoDemo">
+    <div class="vd-petals" id="vdPetals"></div>
+    <div class="vd-content">
+      <div class="vdc-sub">Você está convidada(o) para</div>
+      <div class="vdc-name">Ana &<br>Carlos</div>
+      <div class="vdc-amp">♡</div>
+      <div class="vdc-line"></div>
+      <div class="vdc-date">28 de Setembro de 2025<br>às 18h00 · Salão Magnólia</div>
+    </div>
+    <div class="play-btn">
+      <svg viewBox="0 0 24 24" fill="white" width="22" height="22">
+        <path d="M8 5v14l11-7z"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+<section class="process" id="processo">
+  <div class="process-inner">
+    <div class="process-header reveal">
+      <p class="section-label">✦ Como funciona</p>
+      <h2 class="section-title">Do pedido ao<br><em>convite perfeito</em></h2>
+    </div>
+    <div class="steps">
+      <div class="step">
+        <div class="step-num">01</div>
+        <div class="step-body">
+          <h3>Me conta sobre o seu evento</h3>
+          <p>Você envia as informações pelo WhatsApp ou formulário: tema, cores, data, nome dos noivos/aniversariante. Quanto mais detalhes, melhor o resultado!</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">02</div>
+        <div class="step-body">
+          <h3>Criação personalizada</h3>
+          <p>Em até 48 horas, crio seu convite exclusivo. Para vídeos animados e links, o prazo pode ser de até 3 dias úteis.</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">03</div>
+        <div class="step-body">
+          <h3>Revisão e ajustes</h3>
+          <p>Você recebe uma prévia e pode solicitar até 2 rodadas de alterações sem custo extra. Seu convite precisa estar perfeito!</p>
+        </div>
+      </div>
+      <div class="step">
+        <div class="step-num">04</div>
+        <div class="step-body">
+          <h3>Entrega no WhatsApp</h3>
+          <p>Após a aprovação e pagamento, o arquivo final chega prontinho para você compartilhar. Formato ideal para cada tipo de mídia.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing" id="precos">
+  <div class="pricing-inner">
+    <div class="pricing-header reveal">
+      <p class="section-label">✦ Investimento</p>
+      <h2 class="section-title">Valores <em>acessíveis</em></h2>
+    </div>
+    <div class="pricing-grid reveal">
+      <div class="price-card">
+        <div class="price-name">Essencial</div>
+        <div class="price-amount">R$ 35</div>
+        <div class="price-desc">Convite digital estático</div>
+        <ul class="price-feats">
+          <li class="price-feat"><span class="chk">✿</span> 1 arte personalizada</li>
+          <li class="price-feat"><span class="chk">✿</span> Formato PNG/JPG</li>
+          <li class="price-feat"><span class="chk">✿</span> 2 revisões</li>
+          <li class="price-feat"><span class="chk">✿</span> Entrega em 24h</li>
+        </ul>
+        <button class="btn-card btn-card-light">Solicitar</button>
+      </div>
+
+      <div class="price-card featured">
+        <div class="price-badge">✦ Mais pedido</div>
+        <div class="price-name">Premium</div>
+        <div class="price-amount">R$ 79</div>
+        <div class="price-desc">Convite animado em vídeo</div>
+        <ul class="price-feats">
+          <li class="price-feat"><span class="chk">✿</span> Vídeo MP4 animado</li>
+          <li class="price-feat"><span class="chk">✿</span> Música personalizada</li>
+          <li class="price-feat"><span class="chk">✿</span> Arte estática inclusa</li>
+          <li class="price-feat"><span class="chk">✿</span> 2 revisões</li>
+          <li class="price-feat"><span class="chk">✿</span> Entrega em 48h</li>
+        </ul>
+        <button class="btn-card btn-card-dark">Solicitar</button>
+      </div>
+
+      <div class="price-card">
+        <div class="price-name">Completo</div>
+        <div class="price-amount">R$ 149</div>
+        <div class="price-desc">Link + vídeo + identidade</div>
+        <ul class="price-feats">
+          <li class="price-feat"><span class="chk">✿</span> Link personalizado</li>
+          <li class="price-feat"><span class="chk">✿</span> RSVP online</li>
+          <li class="price-feat"><span class="chk">✿</span> Vídeo animado</li>
+          <li class="price-feat"><span class="chk">✿</span> Cartão de visita digital</li>
+          <li class="price-feat"><span class="chk">✿</span> Suporte prioritário</li>
+        </ul>
+        <button class="btn-card btn-card-light">Solicitar</button>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TESTIMONIALS -->
+<section class="testimonials">
+  <div class="testimonials-inner">
+    <div class="reveal">
+      <p class="section-label">✦ Depoimentos</p>
+      <h2 class="section-title">O que dizem <em>as clientes</em></h2>
+    </div>
+    <div class="test-grid reveal">
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">"O convite animado do casamento ficou lindo demais! Todo mundo perguntou quem fez. Super recomendo a Ana, super atenciosa e talentosa."</p>
+        <div class="test-author">Mariana S. <span>· Casamento</span></div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">"Fiz o convite do aniversário de 15 anos da minha filha e ficou perfeito. O link personalizado com RSVP facilitou demais a organização!"</p>
+        <div class="test-author">Patricia M. <span>· 15 anos</span></div>
+      </div>
+      <div class="test-card">
+        <div class="test-stars">★★★★★</div>
+        <p class="test-text">"Profissional incrível! Entrega rápida, comunicação ótima e o resultado foi além do que esperava. Já indiquei para várias amigas."</p>
+        <div class="test-author">Camila R. <span>· Chá de Bebê</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section" id="contato">
+  <p class="section-label">✦ Vamos criar juntas</p>
+  <h2 class="section-title">Pronta para o seu<br><em>convite dos sonhos?</em></h2>
+  <p>Me chama no WhatsApp e conta sobre o seu evento. Adoraria fazer parte desse momento especial!</p>
+  <div style="display:flex;gap:16px;justify-content:center;flex-wrap:wrap;">
+    <a href="https://wa.me/5511999999999?text=Olá!%20Gostaria%20de%20solicitar%20um%20convite" class="btn-primary" target="_blank">
+      💬 Chamar no WhatsApp
     </a>
-</header>
-
-<section>
-    <h2 class="titulo">Nossos Serviços</h2>
-
-    <div class="servicos">
-        <div class="card">
-            <h3>Convites</h3>
-            <p>Convites personalizados para qualquer ocasião.</p>
-        </div>
-
-        <div class="card">
-            <h3>Cartões de Visita</h3>
-            <p>Design profissional para destacar sua marca.</p>
-        </div>
-
-        <div class="card">
-            <h3>Panfletos</h3>
-            <p>Divulgação eficiente para empresas e eventos.</p>
-        </div>
-
-        <div class="card">
-            <h3>Artes para Redes Sociais</h3>
-            <p>Posts criativos para Instagram, Facebook e WhatsApp.</p>
-        </div>
-    </div>
+    <a href="https://instagram.com/anaartes" class="btn-ghost" target="_blank">
+      📸 Ver no Instagram
+    </a>
+  </div>
 </section>
 
-<section>
-    <h2 class="titulo">Sobre a Ana Artes</h2>
-
-    <div class="sobre">
-        <p>
-            A Ana Artes é especializada na criação de artes digitais,
-            anúncios, convites, cartões de visita e materiais
-            promocionais para empresas e clientes que desejam
-            divulgar seus produtos e serviços com qualidade.
-        </p>
-    </div>
-</section>
-
+<!-- FOOTER -->
 <footer>
-    <p>© 2026 Ana Artes - Todos os direitos reservados</p>
-    <p>WhatsApp: (22) 99222-7950</p>
+  <div>
+    <div class="footer-logo">Ana <span>Artes</span></div>
+    <p>Convites & Identidade Visual · Feito com 💕<br>© 2025 Ana Artes · Todos os direitos reservados</p>
+  </div>
+  <div class="footer-links">
+    <a href="#servicos">Serviços</a>
+    <a href="#portfolio">Portfólio</a>
+    <a href="#precos">Preços</a>
+    <a href="https://wa.me/5511999999999" target="_blank">WhatsApp</a>
+    <a href="https://instagram.com" target="_blank">Instagram</a>
+  </div>
 </footer>
 
-<a class="whatsapp-float"
-   href="https://wa.me/5522992227950"
-   target="_blank">
-📱
+<!-- WhatsApp Float -->
+<a class="wa-float" href="https://wa.me/5511999999999?text=Olá!%20Vim%20pelo%20site%20e%20gostaria%20de%20um%20convite!" target="_blank" title="WhatsApp">
+  <svg viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
 </a>
 
+<script>
+// ── Falling petals
+(function(){
+  const bg = document.getElementById('petalsBg');
+  for(let i = 0; i < 18; i++){
+    const p = document.createElement('div');
+    p.className = 'petal';
+    p.style.cssText = `
+      left: ${Math.random()*100}%;
+      width: ${6+Math.random()*10}px;
+      height: ${9+Math.random()*14}px;
+      animation-duration: ${8+Math.random()*12}s;
+      animation-delay: ${Math.random()*10}s;
+      opacity: ${0.2+Math.random()*0.4};
+      background: hsl(${340+Math.random()*20},${60+Math.random()*20}%,${75+Math.random()*15}%);
+    `;
+    bg.appendChild(p);
+  }
+})();
+
+// ── Video demo petals
+(function(){
+  const c = document.getElementById('vdPetals');
+  for(let i = 0; i < 14; i++){
+    const p = document.createElement('div');
+    p.className = 'vd-petal';
+    p.style.cssText = `
+      left: ${Math.random()*100}%;
+      animation-duration: ${5+Math.random()*8}s;
+      animation-delay: ${Math.random()*8}s;
+    `;
+    c.appendChild(p);
+  }
+})();
+
+// ── Nav scroll
+window.addEventListener('scroll', ()=>{
+  document.getElementById('mainNav').classList.toggle('scrolled', scrollY > 40);
+});
+
+// ── Reveal on scroll
+const observer = new IntersectionObserver((entries)=>{
+  entries.forEach(e => {
+    if(e.isIntersecting){
+      e.target.classList.add('visible');
+    }
+  });
+}, { threshold: 0.12 });
+
+document.querySelectorAll('.reveal, .step').forEach(el => observer.observe(el));
+</script>
 </body>
 </html>
